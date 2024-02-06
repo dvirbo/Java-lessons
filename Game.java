@@ -8,9 +8,7 @@ public class Game {
     private boolean withTime;
     private boolean noOpen;
 
-    private int[][] initialGrid;
-    private int[][] whiteCells;
-    private int[] boardCells;
+    private Cell[][] grid;
 
     public Game(String algorithm, boolean withTime, boolean noOpen) {
         this.algorithm = algorithm;
@@ -22,29 +20,47 @@ public class Game {
         try {
             Scanner scanner = new Scanner(new File(filename));
 
-            // Read initial grid
+            // Read initial grid dimensions
             int numRows = scanner.nextInt();
             int numCols = scanner.nextInt();
-            initialGrid = new int[numRows][numCols];
+            grid = new Cell[numRows][numCols];
+
+            // Read white cells
+            String whiteLine = scanner.nextLine().trim();
+            String[] tuples = whiteLine.split("\\),\\(");
+
+            // Read board cells
             for (int i = 0; i < numRows; i++) {
                 for (int j = 0; j < numCols; j++) {
-                    initialGrid[i][j] = scanner.nextInt();
+                    int number = scanner.nextInt();
+
+                    if (grid[i][j] == null) { // check if the cell is not an exist one
+                        grid[i][j] = new Cell(number, null, -1);
+                    }
                 }
             }
 
-            // Read white cells
-            int numWhiteCells = scanner.nextInt();
-            whiteCells = new int[numWhiteCells][2];
-            for (int i = 0; i < numWhiteCells; i++) {
-                whiteCells[i][0] = scanner.nextInt();
-                whiteCells[i][1] = scanner.nextInt();
-            }
+            for (String tuple : tuples) {
+                String[] data = tuple.replace("(", "").replace(")", "").split(",");
+                int cellNumber = Integer.parseInt(data[0]);
+                int maxSteps = Integer.parseInt(data[1]);
 
-            // Read board cells
-            int totalCells = numRows * numCols;
-            boardCells = new int[totalCells];
-            for (int i = 0; i < totalCells; i++) {
-                boardCells[i] = scanner.nextInt();
+                // Find the cell number within the already initialized grid
+                boolean found = false;
+                int i, j = 0;
+                for (i = 0; i < numRows; i++) {
+                    for (j = 0; j < numCols; j++) {
+                        if (grid[i][j].getNumber() == cellNumber) {
+                            grid[i][j].setMoves(maxSteps);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found) {
+                        break;
+                    }
+                }
+                grid[i][j].setColor("grey"); // init the empty block
             }
 
             scanner.close();
@@ -52,6 +68,8 @@ public class Game {
             System.out.println("Error: Input file not found!");
         }
     }
+    
+    
 
     public void play() {
         // Game logic
