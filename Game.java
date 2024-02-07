@@ -68,11 +68,27 @@ public class Game {
             System.out.println("Error: Input file not found!");
         }
     }
-    
-    
 
     public void play() {
-        // Game logic
+        switch (this.algorithm) {
+            case "DFID":
+                DFIDAlgorithm algo = new DFIDAlgorithm();
+                algo.run(grid);
+
+                break;
+            case "A*":
+
+                break;
+            case "IDA*":
+
+                break;
+
+            case "DFBnB ":
+
+                break;
+            default:
+                // Handle the case when game.algorithm doesn't match any of the defined cases
+        }
     }
 
 }
