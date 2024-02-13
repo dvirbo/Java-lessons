@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\dvir.bo\\OneDrive - SolarEdge\\Desktop\\junit-4.13.2-javadoc.jar"
+    ]
+}

@@ -1,0 +1,32 @@
+Given problem:Bounded NxM puzzle tile puzzle 
+In the game there is a board of size NxM containing  NxM-1 blocks numbered from 1 to NxM-1 and an empty block.
+Some of the blocks are painted in white and part painted in red.
+In addition, on each white block is written how many moves can be made with it.
+The blocks are arranged in a given starting order any, and the goal is to find the cheapest number of operations from the initial arrangement to the final state. 
+In the final state all the blocks arranged from 1 to NxM-1 from left to right and from top to bottom (regardless of their color), 
+with the empty block in the right corner
+
+red cell- cost 30
+white cell- the cost is in the input for each cell
+the purpue is to solve this with few search algorithms.
+we will stast with DFID algorithm so the given problem should be modeled as a graph search.
+We will build our graph while searching
+The actions were indicated by the number of the block that was moved and the directions of movement: R (right), D (down), L (left), U (up).
+the actions need to be saved cause they part of the output
+DFID is implemented recursively, without list-closed but with avoidance-loop.
+Although our aim is to find the cheapest route, DFID will not necessarily find the cheapest route but the
+The shortest route (=with the fewest sliding operations). Still in the output file, the cost of the route it found must be returned
+(and not the number of steps of the route).
+
+
+here an example for input (the explain in [])
+
+DFID [which algo we use]
+with time [sould we output the time]
+no open [later we explain]
+3x4 [size of the input]
+White: (7,2),(8,3) [white cells the first number in the () indicate the location and the second the max moves]
+[the matrix - also in the 2 next line]
+1,2,3,4 
+5,6,11,7
+9,10,8,_
