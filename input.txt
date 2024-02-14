@@ -1,10 +1,7 @@
 DFID
 with time
-with open
-3x4
-White: (7,2),(8,3)
-1,2,3,4
-5,6,11,7
-9,10,8,_
-
-
+no open
+2x3
+White: 
+1,2,3
+5,4,_

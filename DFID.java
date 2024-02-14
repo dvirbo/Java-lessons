@@ -6,17 +6,15 @@ public class DFID {
     public static int col = Ex1.col;
     public static int row = Ex1.row;
 
-    public static String DFID2(Block[] start, Block[] goal) {
+    public static String dfid(Block[] start, Block[] goal) {
         String result = "";
         Set<Node> open = new HashSet<>(); // open list
-        Node stat = new Node(start); // the start Node
+        Node head = new Node(start); // the head Node
         boolean flag = false;
 
-        System.out.println(start.toString());
-        System.out.println(goal.toString());
         for (int depth = 1; !flag; depth++) {
 
-            result = Limited_DFS(stat, goal, depth, open);
+            result = Limited_DFS(head, goal, depth, open);
 
             if (result != "cutoff") {
                 flag = true;
@@ -35,7 +33,7 @@ public class DFID {
         boolean isCutoff;
         Node ans;
 
-        if (equalArrays(start.arrBlock, goal)) { // TODO: add the BFS methods to a new sepetare class
+        if (equalArrays(start.arrBlock, goal)) {
             Ex1.path = start.path;
             Ex1.costOfResult = start.cost;
             return start.path;
@@ -49,7 +47,7 @@ public class DFID {
             String[] directions = { "left", "up", "right", "down" };
 
             for (String direction : directions) {
-                ans = move(start, emptyBlock, direction); // need to remove the open parameter here
+                ans = move(start, emptyBlock, direction);
                 if (ans != null) {
                     if (!open.contains(ans)) {
                         Ex1.count++;
@@ -87,16 +85,58 @@ public class DFID {
     public static Node move(Node start, int emptyBlock, String direction) {
         Node ans = null;
         if (direction == "left" && start.pather != 'L') {
-            ans = left(start, emptyBlock);
+            ans = moveLeft(start, emptyBlock);
         } else if (direction == "up" && start.pather != 'U') {
-
             ans = moveUp(start, emptyBlock);
         } else if (direction == "right" && start.pather != 'R') {
-            ans = right(start, emptyBlock);
+            ans = moveRight(start, emptyBlock);
         } else if (direction == "down" && start.pather != 'D') {
             ans = moveDown(start, emptyBlock);
         }
         return ans;
+    }
+
+    public static Node moveLeft(Node currentState, int position) {
+        // Check if the position is within the valid range
+        if (position % col == col - 1) {
+            return null;
+        }
+
+        // Calculate the destination position
+        int from = position + 1;
+
+        // check if the bolck is white and if he have enough moves
+        if (currentState.arrBlock[from].color.equals("white") && currentState.arrBlock[from].moves == 0) {
+            return null;
+        }
+
+        // Create a copy of the current state
+        Node newState = new Node(currentState);
+
+        // Move the block left usuing temp bolck
+        Block tempBlock = newState.arrBlock[position];
+        newState.arrBlock[position] = newState.arrBlock[from];
+        newState.arrBlock[from] = tempBlock;
+
+        // Calculate the cost of the move
+        int cost = 0;
+        if (newState.arrBlock[position].color.equals("white")) {
+            cost = 1; // White cost 1
+        } else {
+            cost = 30; // Red cost 30
+        }
+
+        // Update the new state
+        newState.cost += cost;
+        newState.pather = 'L';
+        if (newState.path == null) {
+            newState.path = newState.arrBlock[position].num + "L";
+        } else {
+            newState.path += "-" + newState.arrBlock[position].num + "L";
+        }
+
+        return newState;
+
     }
 
     /**
@@ -112,180 +152,122 @@ public class DFID {
         if (position >= col * row - col) {
             return null;
         }
-
-        // Create a copy of the current state
-        Node newState = new Node(currentState);
-
         // Calculate the destination position
         int from = position + col;
 
-        // Check if the block can be moved up
-        if (from < newState.arrBlock.length &&
-                newState.arrBlock[from].color.equals("white") &&
-                newState.arrBlock[from].moves > 0) {
+        // check if the bolck is white and if he have enough moves
+        if (currentState.arrBlock[from].color.equals("white") && currentState.arrBlock[from].moves == 0) {
+            return null;
+        }
+        // Create a copy of the current state
+        Node newState = new Node(currentState);
 
-            // Move the block up
-            Block tempBlock = newState.arrBlock[position];
-            newState.arrBlock[position] = newState.arrBlock[from];
-            newState.arrBlock[from] = tempBlock;
+        // Move the block up
+        Block tempBlock = newState.arrBlock[position];
+        newState.arrBlock[position] = newState.arrBlock[from];
+        newState.arrBlock[from] = tempBlock;
 
-            // Calculate the cost of the move
-            int cost = 0;
-            if (newState.arrBlock[position].color.equals("white")) {
-                cost = 1; // White cost 1
-            } else {
-                cost = 30; // Red cost 30
-            }
-
-            // Update the new state
-            newState.cost += cost;
-            newState.pather = 'U';
-            if (newState.path == null) {
-                newState.path = newState.arrBlock[position].num + "U";
-            } else {
-                newState.path += "-" + newState.arrBlock[position].num + "U";
-            }
-
-            return newState;
+        // Calculate the cost of the move
+        int cost = 0;
+        if (newState.arrBlock[position].color.equals("white")) {
+            cost = 1; // White cost 1
+        } else {
+            cost = 30; // Red cost 30
         }
 
-        return null;
+        // Update the new state
+        newState.cost += cost;
+        newState.pather = 'U';
+        if (newState.path == null) {
+            newState.path = newState.arrBlock[position].num + "U";
+        } else {
+            newState.path += "-" + newState.arrBlock[position].num + "U";
+        }
+
+        return newState;
+
     }
+
+    public static Node moveRight(Node currentState, int position) {
+        // Check if the position is within the valid range
+        if ((position + 1) % col == 0) {
+            return null;
+        }
+        // Calculate the destination position
+        int from = position - 1;
+
+        if (currentState.arrBlock[from].color.equals("white") && currentState.arrBlock[from].moves == 0) {
+            return null;
+        }
+
+        // Create a copy of the current state
+        Node newState = new Node(currentState);
+
+        // Move the block up
+        Block tempBlock = newState.arrBlock[position];
+        newState.arrBlock[position] = newState.arrBlock[from];
+        newState.arrBlock[from] = tempBlock;
+
+        // Calculate the cost of the move
+        int cost = 0;
+        if (newState.arrBlock[position].color.equals("white")) {
+            cost = 1; // White cost 1
+        } else {
+            cost = 30; // Red cost 30
+        }
+
+        // Update the new state
+        newState.cost += cost;
+        newState.pather = 'R';
+        if (newState.path == null) {
+            newState.path = newState.arrBlock[position].num + "R";
+        } else {
+            newState.path += "-" + newState.arrBlock[position].num + "R";
+        }
+
+        return newState;
+    }
+
+    
 
     public static Node moveDown(Node currentState, int position) {
         // Check if the position is within the valid range
-        if (position >= col * row + col) {
+        if (position < col ) {
             return null;
         }
-
-        // Create a copy of the current state
-        Node newState = new Node(currentState);
-
-        // Calculate the destination position
-        int from = position - col; // TODO: pass the dest
-
-        // Check if the block can be moved up
-        if (from < newState.arrBlock.length &&
-                newState.arrBlock[from].color.equals("white") &&
-                newState.arrBlock[from].moves > 0) {
-
-            // Move the block up
-            Block tempBlock = newState.arrBlock[position];
-            newState.arrBlock[position] = newState.arrBlock[from];
-            newState.arrBlock[from] = tempBlock;
-
-            // Calculate the cost of the move
-            int cost = 0;
-            if (newState.arrBlock[position].color.equals("white")) {
-                cost = 1; // White cost 1
-            } else {
-                cost = 30; // Red cost 30
-            }
-
-            // Update the new state
-            newState.cost += cost;
-            newState.pather = 'D'; // TODO: pass the char
-            if (newState.path == null) {
-                newState.path = newState.arrBlock[position].num + "D";
-            } else {
-                newState.path += "-" + newState.arrBlock[position].num + "D";
-            }
-
-            return newState;
-        }
-
-        return null;
-    }
-
-    public static Node left(Node currentState, int position) {
-        // Check if the position is within the valid range
-        if (position % col == col - 1) {
-            return null;
-        }
-
-        // Create a copy of the current state
-        Node newState = new Node(currentState);
-
-        // Calculate the destination position
-        int from = position + 1; // TODO: pass the dest
-
-        // Check if the block can be moved up
-        if (from < newState.arrBlock.length &&
-                newState.arrBlock[from].color.equals("white") &&
-                newState.arrBlock[from].moves > 0) {
-
-            // Move the block up
-            Block tempBlock = newState.arrBlock[position];
-            newState.arrBlock[position] = newState.arrBlock[from];
-            newState.arrBlock[from] = tempBlock;
-
-            // Calculate the cost of the move
-            int cost = 0;
-            if (newState.arrBlock[position].color.equals("white")) {
-                cost = 1; // White cost 1
-            } else {
-                cost = 30; // Red cost 30
-            }
-
-            // Update the new state
-            newState.cost += cost;
-            newState.pather = 'L'; // TODO: pass the char
-            if (newState.path == null) {
-                newState.path = newState.arrBlock[position].num + "L";
-            } else {
-                newState.path += "-" + newState.arrBlock[position].num + "L";
-            }
-
-            return newState;
-        }
-
-        return null;
-
-    }
-
-    public static Node right(Node currentState, int position) {
-        // Check if the position is within the valid range
-        if (position % col == 0) {
-            return null;
-        }
-
-        // Create a copy of the current state
-        Node newState = new Node(currentState);
-
         // Calculate the destination position
         int from = position - col;
 
-        // Check if the block can be moved up
-        if (from < newState.arrBlock.length &&
-                newState.arrBlock[from].color.equals("white") &&
-                newState.arrBlock[from].moves > 0) {
+        if (currentState.arrBlock[from].color.equals("white") && currentState.arrBlock[from].moves == 0) {
+            return null;
+        }
+        // Create a copy of the current state
+        Node newState = new Node(currentState);
 
-            // Move the block up
-            Block tempBlock = newState.arrBlock[position];
-            newState.arrBlock[position] = newState.arrBlock[from];
-            newState.arrBlock[from] = tempBlock;
+        // Move the block down
+        Block tempBlock = newState.arrBlock[position];
+        newState.arrBlock[position] = newState.arrBlock[from];
+        newState.arrBlock[from] = tempBlock;
 
-            // Calculate the cost of the move
-            int cost = 0;
-            if (newState.arrBlock[position].color.equals("white")) {
-                cost = 1; // White cost 1
-            } else {
-                cost = 30; // Red cost 30
-            }
-
-            // Update the new state
-            newState.cost += cost;
-            newState.pather = 'R'; // TODO: pass the char
-            if (newState.path == null) {
-                newState.path = newState.arrBlock[position].num + "R";
-            } else {
-                newState.path += "-" + newState.arrBlock[position].num + "R";
-            }
-
-            return newState;
+        // Calculate the cost of the move
+        int cost = 0;
+        if (newState.arrBlock[position].color.equals("white")) {
+            cost = 1; // White cost 1
+        } else {
+            cost = 30; // Red cost 30
         }
 
-        return null;
+        // Update the new state
+        newState.cost += cost;
+        newState.pather = 'D';
+        if (newState.path == null) {
+            newState.path = newState.arrBlock[position].num + "D";
+        } else {
+            newState.path += "-" + newState.arrBlock[position].num + "D";
+        }
+
+        return newState;
+
     }
 
     public static int where0(Node a) {

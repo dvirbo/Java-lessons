@@ -68,7 +68,7 @@ public class Ex1 {
       line = null;
       int rowCounter = 0;
       start = new String[row * col];
-
+      // read the grid 
       while (rowCounter < row && (line = scanner.nextLine()) != null) {
         String[] values = line.split(",");
         if (values.length != col) {
@@ -129,7 +129,7 @@ public class Ex1 {
     switch (searchType) {
       case "DFID":
         startTime = System.currentTimeMillis();
-        DFID.DFID2(blocks, goal);
+        DFID.dfid(blocks, goal);
         endTime = System.currentTimeMillis();
         totalTime = (endTime - startTime) / 1000.0;
         break;
@@ -156,7 +156,7 @@ public class Ex1 {
         break;
     }
 
-    try { // src\tilePuzzle\Ex1.java
+    try { 
       File myObj = new File("output.txt");
 
       System.out.println("File created: " + myObj.getName());
