@@ -68,7 +68,7 @@ public class Ex1 {
       line = null;
       int rowCounter = 0;
       start = new String[row * col];
-      // read the grid 
+      // read the grid
       while (rowCounter < row && (line = scanner.nextLine()) != null) {
         String[] values = line.split(",");
         if (values.length != col) {
@@ -84,7 +84,6 @@ public class Ex1 {
 
         rowCounter++;
       }
-      
 
       blocks = new Block[row * col]; // init the blocks of the given grid
       for (int counter = 0; counter < start.length; counter++) {
@@ -133,12 +132,12 @@ public class Ex1 {
         endTime = System.currentTimeMillis();
         totalTime = (endTime - startTime) / 1000.0;
         break;
-      // case "A*":
-      // startTime = System.currentTimeMillis();
-      // AStar.UCS(blocks, goal);
-      // endTime = System.currentTimeMillis();
-      // totalTime = (endTime - startTime) / 1000.0;
-      // break;
+      case "A*":
+        startTime = System.currentTimeMillis();
+        Astar.astar(blocks, goal);
+        endTime = System.currentTimeMillis();
+        totalTime = (endTime - startTime) / 1000.0;
+        break;
       // case "IDA*":
       // startTime = System.currentTimeMillis();
       // idaStar.IDA(blocks, goal);
@@ -156,13 +155,13 @@ public class Ex1 {
         break;
     }
 
-    try { 
+    try {
       File myObj = new File("output.txt");
 
       System.out.println("File created: " + myObj.getName());
 
       PrintWriter writer = new PrintWriter("output.txt");
-      if (path == null) {
+      if (path.isEmpty()) {
         writer.println("no path");
         writer.println("Num: " + count);
       } else {

@@ -1,5 +1,5 @@
 /*
- * class block represent a cell in the matrix
+ * class block represent a block in the matrix
  * each bloch has number, color and cost
  */
 class Block {
@@ -8,13 +8,11 @@ class Block {
     String color; // red or white
     int cost;
     int moves; // how much moves the block can made
-    int[] mat = new int[2];
+    int[] coordinates = new int[2];
 
     Block(int num) {
         this.num = num;
-
         this.color = "Red"; // the default color
-
         this.cost = 30;
 
     }
@@ -30,13 +28,11 @@ class Block {
     // constructor for the white cells
     Block(int num, String color, int moves) {
         this.num = num;
-
         this.color = color;
         this.moves = moves;
 
     }
 
-    
     public boolean equals(Block[] other) {
         for (int i = 0; i < other.length; i++) {
             if (num != other[i].num) {
@@ -45,7 +41,7 @@ class Block {
         }
         return true;
     }
-    
+
     public static boolean CompareBlocks(Block[] current, Block[] goal) {
         for (int i = 0; i < goal.length; i++) {
             if (current[i].num != goal[i].num) {
@@ -55,7 +51,6 @@ class Block {
         return true;
     }
 
-   
     @Override
     public String toString() {
         return "num: " + num + " color: " + color;
@@ -66,19 +61,20 @@ class Block {
  * class Node represent a level in the game tree.
  */
 class Node {
-    Block[] blocks = new Block[Ex1.col * Ex1.row];
+    static int col = Ex1.col;
+    static int row = Ex1.row;
+    Block[] blocks = new Block[col * row];
     int cost; // cost of al the moves
+    int direction;
     char father = 'X'; // the move of the "father" (L/R/U/D)
-    int f;
-    String mark; //
+    int f; // huristic function
+    String mark; 
     String path = null;
-    public static int col = Ex1.col;
-    public static int row = Ex1.row;
+    int creationIteration; // the iteration in which the vertex was created
 
     public Node() {
 
     }
-
 
     public Node(Block[] arr) {
 
@@ -97,23 +93,23 @@ class Node {
         this.path = other.path;
     }
 
-    /*
-     * Each block in the array has a variable that holds
-     * the position of that block in the matrix.
-     * Help us find distances in the heuristic function
+    /**
+     * This method initializes the matrix variable in each block of the puzzle board.
+     * The data represented as a pair of integers (i, j) (row & col)
+     * @param node the node object that contains the game board blocks
      */
-    public static void initMat(Node e) {
-        int k = 0;
-        for (int i = 0; i < Ex1.row; i++) {
-            for (int j = 0; j < Ex1.col; j++) {
+    public static void initMat(Node node) {
+        int counter = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
 
-                e.blocks[k].mat[0] = i;
-                e.blocks[k].mat[1] = j;
-                k++;
+                node.blocks[counter].coordinates[0] = i;
+                node.blocks[counter].coordinates[1] = j;
+                counter++;
             }
         }
     }
-    
+
     public static Node move(Node currentNode, int emptyBlock, String direction) {
         Node ans = null;
         if (direction.equals("left") && (currentNode.father == 'X' || currentNode.father != 'R')) {
@@ -177,7 +173,6 @@ class Node {
         return pos;
     }
 
-
     public static Node moveLeft(Node currentState, int position) {
         // Check if the position is within the valid range
         if ((position + 1) % col == 0) {
@@ -205,6 +200,7 @@ class Node {
         // Update the new state
         newState.cost += cost;
         newState.father = 'L';
+        newState.direction = 0;
         if (newState.path == null) {
             newState.path = newState.blocks[position].num + "L";
         } else {
@@ -249,6 +245,7 @@ class Node {
         // Update the new state
         newState.cost += cost;
         newState.father = 'U';
+        newState.direction = 1;
         if (newState.path == null) {
             newState.path = newState.blocks[position].num + "U";
         } else {
@@ -285,6 +282,7 @@ class Node {
         // Update the new state
         newState.cost += cost;
         newState.father = 'R';
+        newState.direction = 2;
         if (newState.path == null) {
             newState.path = newState.blocks[position].num + "R";
         } else {
@@ -320,6 +318,7 @@ class Node {
         // Update the new state
         newState.cost += cost;
         newState.father = 'D';
+        newState.direction = 3;
         if (newState.path == null) {
             newState.path = newState.blocks[position].num + "D";
         } else {
@@ -329,7 +328,6 @@ class Node {
         return newState;
 
     }
-
 
     @Override
     public String toString() {
