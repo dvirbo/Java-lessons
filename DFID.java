@@ -1,7 +1,5 @@
 import java.util.Hashtable;
 
-import javax.swing.plaf.TreeUI;
-
 public class DFID {
     public static int col = Ex1.col;
     public static int row = Ex1.row;
@@ -95,7 +93,6 @@ public class DFID {
         }
         return true;
     }
-    
 
     public static Node move(Node currentNode, int emptyBlock, String direction) {
         Node ans = null;
@@ -120,8 +117,7 @@ public class DFID {
         // Calculate the destination position
         int from = position + 1;
 
-        // check if the bolck is white and if he have enough moves
-        if (currentState.blocks[from].color.equals("white") && currentState.blocks[from].moves == 0) {
+        if (currentState.blocks[from].color.trim().equalsIgnoreCase("white") && currentState.blocks[from].moves == 0) {
             return null;
         }
 
@@ -130,7 +126,7 @@ public class DFID {
 
         // Calculate the cost of the move
         int cost = 0;
-        if (newState.blocks[position].color.equals("white")) {
+        if (newState.blocks[position].color.trim().equalsIgnoreCase("white")) {
             cost = 1; // White cost 1
         } else {
             cost = 30; // Red cost 30
@@ -165,15 +161,16 @@ public class DFID {
         // Calculate the destination position
         int from = position + col;
 
-        // check if the bolck is white and if he have enough moves
-        if (currentState.blocks[from].color.equals("white") && currentState.blocks[from].moves == 0) {
+        if (currentState.blocks[from].color.trim().equalsIgnoreCase("white") && currentState.blocks[from].moves == 0) {
             return null;
         }
+
         // // Create a copy of the current state
         Node newState = performSwap(currentState, position, from);
+
         // Calculate the cost of the move
         int cost = 0;
-        if (newState.blocks[position].color.equals("white")) {
+        if (newState.blocks[position].color.trim().equalsIgnoreCase("white")) {
             cost = 1; // White cost 1
         } else {
             cost = 30; // Red cost 30
@@ -200,7 +197,7 @@ public class DFID {
         // Calculate the destination position
         int from = position - 1;
 
-        if (currentState.blocks[from].color.equals("white") && currentState.blocks[from].moves == 0) {
+        if (currentState.blocks[from].color.trim().equalsIgnoreCase("white") && currentState.blocks[from].moves == 0) {
             return null;
         }
 
@@ -209,7 +206,7 @@ public class DFID {
 
         // Calculate the cost of the move
         int cost = 0;
-        if (newState.blocks[position].color.equals("white")) {
+        if (newState.blocks[position].color.trim().equalsIgnoreCase("white")) {
             cost = 1; // White cost 1
         } else {
             cost = 30; // Red cost 30
@@ -235,14 +232,16 @@ public class DFID {
         // Calculate the destination position
         int from = position - col;
 
-        if (currentState.blocks[from].color.equals("white") && currentState.blocks[from].moves == 0) {
+        if (currentState.blocks[from].color.trim().equalsIgnoreCase("white") && currentState.blocks[from].moves == 0) {
             return null;
         }
+
         // // Create a copy of the current state
         Node newState = performSwap(currentState, position, from);
+
         // Calculate the cost of the move
         int cost = 0;
-        if (newState.blocks[position].color.equals("white")) {
+        if (newState.blocks[position].color.trim().equalsIgnoreCase("white")) {
             cost = 1; // White cost 1
         } else {
             cost = 30; // Red cost 30

@@ -15,7 +15,7 @@ public class Ex1 {
   static Block[] blocks;
   static Block[] goal;
   static HashMap<Integer, Integer> whiteCells = new HashMap<>();
-  public static int count = 1;
+  public static int count = 0;
   public static String path;
   public static int costOfResult;
   public static long startTime;
