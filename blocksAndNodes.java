@@ -2,6 +2,8 @@
  * class block represent a cell in the matrix
  * each bloch has number, color and cost
  */
+
+
 class Block {
 
     int num;
@@ -36,6 +38,17 @@ class Block {
 
     }
 
+    
+    public boolean equals(Block [] other) {
+        for (int i = 0; i < other.length; i++) {
+            if (num != other[i].num) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+   
     @Override
     public String toString() {
         return "num: " + num + " color: " + color;
@@ -46,27 +59,34 @@ class Block {
  * class Node represent a level in the game tree.
  */
 class Node {
-    Block[] arrBlock = new Block[Ex1.col * Ex1.row];
+    Block[] blocks = new Block[Ex1.col * Ex1.row];
     int cost; // cost of al the moves
-    char pather; // the move of the "father" (L/R/U/D)
+    char father = 'X'; // the move of the "father" (L/R/U/D)
     int f;
     String mark; //
     String path = null;
+    public static int col = Ex1.col;
+    public static int row = Ex1.row;
+
+    public Node() {
+
+    }
+
 
     public Node(Block[] arr) {
 
-        this.arrBlock = arr;
+        this.blocks = arr;
         this.path = null;
         this.cost = 0;
 
     }
 
     public Node(Node other) {
-        this.arrBlock = other.arrBlock;
+        this.blocks = other.blocks;
         this.cost = other.cost;
         this.f = other.f;
         this.mark = other.mark;
-        this.pather = other.pather;
+        this.father = other.father;
         this.path = other.path;
     }
 
@@ -80,17 +100,23 @@ class Node {
         for (int i = 0; i < Ex1.row; i++) {
             for (int j = 0; j < Ex1.col; j++) {
 
-                e.arrBlock[k].mat[0] = i;
-                e.arrBlock[k].mat[1] = j;
+                e.blocks[k].mat[0] = i;
+                e.blocks[k].mat[1] = j;
                 k++;
             }
         }
     }
 
+
+
     @Override
     public String toString() {
-        return "path: " + path + " ,cost: " + cost + " ,mark: " + mark + " ,p: " + pather + "|";
-
+        String ans = "[";
+        for (int i = 0; i < this.blocks.length; i++) {
+            ans += this.blocks[i].num + " ";
+        }
+        ans += "]\n";
+        return ans;
     }
 
 }

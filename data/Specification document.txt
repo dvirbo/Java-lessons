@@ -1,4 +1,4 @@
-Given problem:Bounded NxM puzzle tile puzzle 
+Given problem:Bounded NxM tile puzzle 
 In the game there is a board of size NxM containing  NxM-1 blocks numbered from 1 to NxM-1 and an empty block.
 Some of the blocks are painted in white and part painted in red.
 In addition, on each white block is written how many moves can be made with it.
