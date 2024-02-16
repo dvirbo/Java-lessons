@@ -138,12 +138,12 @@ public class Ex1 {
         endTime = System.currentTimeMillis();
         totalTime = (endTime - startTime) / 1000.0;
         break;
-      // case "IDA*":
-      // startTime = System.currentTimeMillis();
-      // idaStar.IDA(blocks, goal);
-      // endTime = System.currentTimeMillis();
-      // totalTime = (endTime - startTime) / 1000.0;
-      // break;
+      case "IDA*":
+      startTime = System.currentTimeMillis();
+      IDAstar.idastar(blocks, goal);
+      endTime = System.currentTimeMillis();
+      totalTime = (endTime - startTime) / 1000.0;
+      break;
       // case "DFBnB":
       // startTime = System.currentTimeMillis();
       // dfbnb.DFBnB(blocks, goal);

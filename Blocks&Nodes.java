@@ -68,7 +68,7 @@ class Node {
     int direction;
     char father = 'X'; // the move of the "father" (L/R/U/D)
     int f; // huristic function
-    String mark; 
+    String mark = "in"; 
     String path = null;
     int creationIteration; // the iteration in which the vertex was created
 
@@ -327,6 +327,38 @@ class Node {
 
         return newState;
 
+    }
+
+    /**
+     * Calculates the Manhattan distance between two nodes.
+     * 
+     * @param node the node to calculate the distance from
+     * @return the Manhattan distance between the two nodes
+     */
+    public static int manhattan(Node node) {
+        int sum = 0;
+        Node.initMat(node);
+
+        for (int i = 0; i < row * col; i++) {
+            if (node.blocks[i].num == 0) {
+                continue;
+            }
+            if (node.blocks[i].num != (i + 1)) {
+                int tmpRow = node.blocks[i].num / col;
+                int tmpCol = node.blocks[i].num % col;
+                int currRow = i / col;
+                int currCol = i % col;
+
+                int x = tmpRow - currRow;
+                int y = tmpCol - currCol;
+
+                int distance = Math.abs(x) + Math.abs(y);
+                int cost = (node.blocks[i].color.trim().equalsIgnoreCase("Red")) ? distance * 30 : distance;
+                sum += cost;
+            }
+        }
+
+        return sum;
     }
 
     @Override
