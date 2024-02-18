@@ -18,34 +18,36 @@ public class IDAstar {
         Node ans;
         Stack<Node> stack = new Stack<>();
         Hashtable<String, Node> open_list = new Hashtable<>();
-        int cost = Node.manhattan(head); // cost threshold
+        int threshold = Node.manhattan(head); // init the threshold
 
-        while (cost != Integer.MAX_VALUE) {
-            stack.push(head);
-            int minF = Integer.MAX_VALUE;
+        stack.push(head);
+        open_list.put(head.toString(), head);
 
-            while (!stack.isEmpty()) {
-                Node curr = stack.pop();
+        while (!stack.isEmpty()) {
+            Node curr = stack.pop();
 
-                if (curr.mark) { // if we already checked this node
-                    open_list.remove(curr.toString());
-                } else {
-                    curr.mark = true;
-                    int emptyBlock = Node.findEmpty(curr);
+            if (curr.mark) {
+                open_list.remove(curr.toString());
+            } else {
+                curr.mark = true;
 
-                    for (String direction : Ex1.directions) {
-                        ans = Node.move(curr, emptyBlock, direction);
-                        if (ans == null) {
+                int emptyBlock = Node.findEmpty(curr);
+
+                for (String direction : Ex1.directions) {
+                    ans = Node.move(curr, emptyBlock, direction);
+                    if (ans == null) {
+                        continue;
+                    }
+                    ans.f = ans.cost + Node.manhattan(ans);
+
+                    if (ans.f > threshold) {
+                        // Determine minF here if needed
+                    } else {
+                        if (curr.mark && open_list.containsKey(ans.toString())) {
                             continue;
                         }
-                        ans.f = ans.cost + Node.manhattan(ans); // init the f value
 
-                        if (ans.f > cost) {
-                            minF = Math.min(minF, ans.f);
-                            continue;
-                        }
-
-                        if (open_list.containsKey(ans.toString())) {
+                        if (!curr.mark && open_list.containsKey(ans.toString())) {
                             Node existingNode = open_list.get(ans.toString());
                             if (existingNode.f > ans.f) {
                                 stack.remove(existingNode);
@@ -55,23 +57,21 @@ public class IDAstar {
                             }
                         }
 
-                        Ex1.count++;
                         if (Block.CompareBlocks(ans.blocks, goal)) {
                             Ex1.path = ans.path;
                             Ex1.costOfResult = ans.cost;
                             return;
                         }
 
+                        Ex1.count++;
                         stack.push(ans);
                         open_list.put(ans.toString(), ans);
-
                     }
                 }
-                if (Ex1.openList.equalsIgnoreCase("with open")) {
-                    System.out.println(open_list.toString());
-                }
             }
-            cost = minF;
+            if (Ex1.openList.equalsIgnoreCase("with open")) {
+                System.out.println(open_list.toString());
+            }
         }
     }
 }
