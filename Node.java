@@ -10,7 +10,7 @@ public class Node {
     int direction;
     char father = 'X'; // the move of the "father" (L/R/U/D)
     int f; // huristic function
-    boolean mark;
+    Boolean visit = false;
     String path = null;
     int creationIteration; // the iteration in which the vertex was created
 
@@ -30,7 +30,7 @@ public class Node {
         this.blocks = other.blocks;
         this.cost = other.cost;
         this.f = other.f;
-        this.mark = other.mark;
+        this.visit = other.visit;
         this.father = other.father;
         this.path = other.path;
     }
