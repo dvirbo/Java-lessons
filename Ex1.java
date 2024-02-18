@@ -145,12 +145,12 @@ public class Ex1 {
       endTime = System.currentTimeMillis();
       totalTime = (endTime - startTime) / 1000.0;
       break;
-      // case "DFBnB":
-      // startTime = System.currentTimeMillis();
-      // dfbnb.DFBnB(blocks, goal);
-      // endTime = System.currentTimeMillis();
-      // totalTime = (endTime - startTime) / 1000.0;
-      // break;
+      case "DFBnB":
+      startTime = System.currentTimeMillis();
+      DFbnb.dfbnb(blocks, goal);
+      endTime = System.currentTimeMillis();
+      totalTime = (endTime - startTime) / 1000.0;
+      break;
 
       default:
         break;
