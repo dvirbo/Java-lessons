@@ -1,6 +1,6 @@
-IDA*
+DFID
 with time
-no open
+with open
 3x4
 White: (7,2),(8,3)
 1,2,3,4

@@ -33,6 +33,9 @@ public class Astar {
         open_list.put(head.toString(), head);
         while (!nodePriorityQueue.isEmpty()) {
             Node curr = nodePriorityQueue.remove();
+            if (Ex1.isOpen) {
+                Node.printHashtable(open_list);
+            }
             open_list.remove(curr);
             if (Block.CompareBlocks(curr.blocks, goal)) { // check of the blocks are equals
                 Ex1.path = curr.path;
@@ -53,10 +56,6 @@ public class Astar {
                 nodePriorityQueue.add(ans);
                 open_list.put(ans.toString(), ans);
                 Ex1.count++; // how much Nodes was created
-
-            }
-            if (Ex1.openList.equalsIgnoreCase("with open")) {
-                System.out.println(open_list.toString());
 
             }
         }

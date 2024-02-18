@@ -68,10 +68,10 @@ public class DFID {
 
             }
 
-            if (Ex1.openList.equalsIgnoreCase("with open")) {
-                System.out.println(open_list.toString());
-            }
 
+            if (Ex1.isOpen) {
+                Node.printHashtable(open_list);
+            }
             open_list.remove(currentNode.toString());
 
             if (isCutoff) {

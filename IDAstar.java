@@ -29,6 +29,9 @@ public class IDAstar {
                 Node curr = stack.pop();
 
                 if (curr.visit) { // == true
+                    if (Ex1.isOpen) {
+                        Node.printHashtable(open_list);
+                    }
                     open_list.remove(curr.toString()); 
                 } else {
                     curr.visit = true;
@@ -55,6 +58,9 @@ public class IDAstar {
                         if (existingNode != null && !existingNode.visit ) { // visit == false
                             if (existingNode.f > ans.f) {
                                 stack.remove(existingNode);
+                                if (Ex1.isOpen) {
+                                    Node.printHashtable(open_list);
+                                }
                                 open_list.remove(ans.toString());
                             } else {
                                 continue;
@@ -72,9 +78,6 @@ public class IDAstar {
                         open_list.put(ans.toString(), ans);
 
                     }
-                }
-                if (Ex1.openList.equalsIgnoreCase("with open")) {
-                    System.out.println(open_list.toString());
                 }
             }
             threshold = minF;

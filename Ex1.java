@@ -22,6 +22,7 @@ public class Ex1 {
   public static long endTime;
   public static double totalTime;
   public static String[] directions = { "left", "up", "right", "down" };
+  public static boolean isOpen = false;;
 
   public static void run() throws IOException {
 
@@ -32,6 +33,9 @@ public class Ex1 {
       printTime = scanner.nextLine();
 
       openList = scanner.nextLine();
+      if (openList.equalsIgnoreCase("with open")){
+        isOpen = true;
+      }
       String stringSize = scanner.nextLine();
       String split[] = stringSize.split("x");
 
@@ -176,6 +180,7 @@ public class Ex1 {
 
       }
 
+      
       writer.close();
 
     } catch (IOException e) {

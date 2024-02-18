@@ -1,6 +1,10 @@
 /*
  * class Node represent a level in the game tree.
  */
+
+import java.util.Hashtable;
+import java.util.Map;
+
 public class Node {
 
     static int col = Ex1.col;
@@ -313,5 +317,11 @@ public class Node {
         }
         ans += "]\n";
         return ans;
-    }  
+    }
+
+    public static <V> void printHashtable(Hashtable<String, V> hashtable) {
+        for (Map.Entry<String, V> entry : hashtable.entrySet()) {
+            System.out.println(entry.getValue());
+        }
+    }
 }
