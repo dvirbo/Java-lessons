@@ -42,9 +42,8 @@ public class Astar {
             close_list.put(curr.toString(), curr);
             int emptyBlock = Node.findEmpty(curr);
 
-            String[] directions = { "left", "up", "right", "down" };
 
-            for (String direction : directions) {
+            for (String direction : Ex1.directions) {
                 ans = Node.move(curr, emptyBlock, direction);
                 if (ans == null || open_list.contains(ans) || close_list.contains(ans)) {
                     continue;

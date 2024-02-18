@@ -21,6 +21,7 @@ public class Ex1 {
   public static long startTime;
   public static long endTime;
   public static double totalTime;
+  public static String[] directions = { "left", "up", "right", "down" };
 
   public static void run() throws IOException {
 
@@ -161,9 +162,10 @@ public class Ex1 {
       System.out.println("File created: " + myObj.getName());
 
       PrintWriter writer = new PrintWriter("output.txt");
-      if (path.isEmpty()) {
+      if (Ex1.path == null) {
         writer.println("no path");
         writer.println("Num: " + count);
+       writer.println("Cost:"); 
       } else {
         writer.println(path);
         writer.println("Num: " + count);

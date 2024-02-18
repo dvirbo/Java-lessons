@@ -53,9 +53,7 @@ public class DFID {
             boolean isCutoff = false;
             int emptyBlock = Node.findEmpty(currentNode);
 
-            String[] directions = { "left", "up", "right", "down" };
-
-            for (String direction : directions) {
+            for (String direction : Ex1.directions) {
                 Node ans = Node.move(currentNode, emptyBlock, direction);
                 if (ans == null || open_list.contains(ans)) {
                     continue;

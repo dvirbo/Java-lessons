@@ -1,66 +1,8 @@
 /*
- * class block represent a block in the matrix
- * each bloch has number, color and cost
- */
-class Block {
-
-    int num;
-    String color; // red or white
-    int cost;
-    int moves; // how much moves the block can made
-    int[] coordinates = new int[2];
-
-    Block(int num) {
-        this.num = num;
-        this.color = "Red"; // the default color
-        this.cost = 30;
-
-    }
-
-    // constructor for the Red cells
-    Block(int num, String color) {
-        this.num = num;
-        this.color = color;
-        this.cost = 30;
-
-    }
-
-    // constructor for the white cells
-    Block(int num, String color, int moves) {
-        this.num = num;
-        this.color = color;
-        this.moves = moves;
-
-    }
-
-    public boolean equals(Block[] other) {
-        for (int i = 0; i < other.length; i++) {
-            if (num != other[i].num) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean CompareBlocks(Block[] current, Block[] goal) {
-        for (int i = 0; i < goal.length; i++) {
-            if (current[i].num != goal[i].num) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "num: " + num + " color: " + color;
-    }
-}
-
-/*
  * class Node represent a level in the game tree.
  */
-class Node {
+public class Node {
+
     static int col = Ex1.col;
     static int row = Ex1.row;
     Block[] blocks = new Block[col * row];
@@ -68,7 +10,7 @@ class Node {
     int direction;
     char father = 'X'; // the move of the "father" (L/R/U/D)
     int f; // huristic function
-    String mark = "in"; 
+    boolean mark;
     String path = null;
     int creationIteration; // the iteration in which the vertex was created
 
@@ -94,8 +36,10 @@ class Node {
     }
 
     /**
-     * This method initializes the matrix variable in each block of the puzzle board.
+     * This method initializes the matrix variable in each block of the puzzle
+     * board.
      * The data represented as a pair of integers (i, j) (row & col)
+     * 
      * @param node the node object that contains the game board blocks
      */
     public static void initMat(Node node) {
@@ -369,6 +313,5 @@ class Node {
         }
         ans += "]\n";
         return ans;
-    }
-
+    }  
 }
